@@ -41,15 +41,18 @@ public class ModClientForge {
     public static void renderBlock(RenderPlayerEvent.Pre event) {
         Player player = event.getEntity();
         PlayerDuck playerDuck = PlayerDuck.of(player);
-        if (playerDuck.isMorphed()) {
+        ItemStack stack = player.getItemBySlot(EquipmentSlot.HEAD);
+        if (!stack.isEmpty() &&playerDuck.isMorphed()) {
             ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            ItemStack stack = player.getItemBySlot(EquipmentSlot.HEAD);
             PoseStack pPoseStack = event.getPoseStack();
+            pPoseStack.pushPose();
             MultiBufferSource pBuffer = event.getMultiBufferSource();
+            float scale = 2;
+            pPoseStack.translate(0,.5,0);
+            pPoseStack.scale(scale,scale,scale);
             itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, event.getPackedLight(), OverlayTexture.NO_OVERLAY, pPoseStack, pBuffer, player.level(), player.getId());
-
+            pPoseStack.popPose();
             event.setCanceled(true);
         }
     }
-
 }

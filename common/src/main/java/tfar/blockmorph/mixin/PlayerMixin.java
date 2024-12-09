@@ -1,6 +1,7 @@
 package tfar.blockmorph.mixin;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import tfar.blockmorph.PlayerDuck;
@@ -24,5 +25,6 @@ public class PlayerMixin implements PlayerDuck {
             Services.PLATFORM.sendToTracking(serverPlayer,new S2CMorphPacket(serverPlayer.getUUID(),morphed));
         }
         this.morphed = morphed;
+        ((Entity)(Object)this).refreshDimensions();
     }
 }
