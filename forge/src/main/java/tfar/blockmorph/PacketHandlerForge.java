@@ -24,11 +24,11 @@ public class PacketHandlerForge {
     }
 
     public static <MSG extends C2SModPacket> BiConsumer<MSG, Supplier<NetworkEvent.Context>> wrapC2S() {
-        return ((msg, contextSupplier) -> {
+        return (msg, contextSupplier) -> {
             ServerPlayer player = contextSupplier.get().getSender();
             contextSupplier.get().enqueueWork(() -> msg.handleServer(player));
             contextSupplier.get().setPacketHandled(true);
-        });
+        };
     }
 
     public static <MSG> void sendToClient(MSG packet, ServerPlayer player) {
